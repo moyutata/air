@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增舱位</title>
+</head>
+<body>
+<form action="/addShippingS" method="post">
+    <table border="1" align="center">
+        <caption>舱位信息</caption>
+        <tr>
+            <th>舱位编号:</th>
+            <td><input type="text" name="shippingId" /></td>
+        </tr>
+        <tr>
+        <tr>
+            <th>舱位等级:</th>
+            <td><input type="text" name="shippingGrade" /></td>
+        </tr>
+        <tr>
+            <td><input type="submit"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+</form>
+<h3><a th:href="@{/selectAllAircraft}">返回主界面</a></h3>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>机票信息</title>
+    <link rel="stylesheet" href="asserts/css/navigate.css">
+    <link rel="stylesheet" href="asserts/css/table.css">
+</head>
+<body>
+<div align="center">
+    <img src="asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a th:href="@{/queryOrders(loginId=${session.user.getLoginId()})}">查询订单</a>
+            <a th:href="@{/queryPassenger}">乘机人管理</a>
+            <a th:href="@{/logout}">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="/search">查询航班</a>
+        </div>
+    </li>
+    <li><a href="/queryFlight">主页</a> </li>
+</ul>
+<div class="div-style" align="center">
+    <table id="tables" title="机票">
+        <tr><th>机票号</th><th>订单号</th><th>乘客姓名</th><th>座位号</th><th>航班号</th><th>舱位等级</th><th>是否登机</th><th>登机口</th><th>值机</th></tr>
+        <tr>
+            <td th:text="${tickets.getTicketId()}"></td>
+            <td th:text="${tickets.getOrderId()}"></td>
+            <td th:text="${tickets.getPassenger().getPassName()}"></td>
+            <td th:text="${tickets.getSeatId()}"></td>
+            <td th:text="${tickets.getExecId()}"></td>
+            <td th:text="${tickets.getShipping().getShippingGrade()}"></td>
+            <td th:text="${tickets.getIsCheckIn()}"></td>
+            <td th:text="${tickets.getBoardingNumber()}"></td>
+            <td><a th:href="@{/querySeats(aircraftId=1,shippingId=${tickets.getShipping().getShippingId()},ticketId=${tickets.getTicketId()})}">值机</a> </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

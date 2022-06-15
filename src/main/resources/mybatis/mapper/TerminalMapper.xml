@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.lsk.mapper.TerminalMapper">
+    <select id="selectTerminal"  resultType="jmu.lsk.po.Terminal" parameterType="int" >
+        select * from terminal where airportId=#{Id};
+    </select>
+    <select id="allTerminal" resultType="jmu.lsk.po.Terminal">
+        select*
+        from terminal;
+    </select>
+    <insert id="addTerminal" useGeneratedKeys="true" keyProperty="terminalId" parameterType="jmu.lsk.po.Terminal">
+        insert into terminal(airportId,terminalName) values(#{airportId},#{terminalName});
+    </insert>
+</mapper>

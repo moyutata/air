@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.lsk.mapper.PassengerMapper">
+    <insert id="insertPassenger" parameterType="jmu.lsk.po.Passenger">
+        insert into passenger values (#{passName},#{idNumber},#{passTel},#{passSex});
+    </insert>
+
+    <delete id="deletePassenger" parameterType="String">
+        delete from passenger where idNumber=#{idNumber}
+    </delete>
+
+    <update id="updatePassenger" parameterType="jmu.lsk.po.Passenger">
+        update passenger
+        <set>
+            <if test="passName!=null and passName!=''">
+                passName=#{passName},
+            </if>
+            <if test="passTel!=null and passTel!=''">
+                passTel=#{passTel},
+            </if>
+            <if test="passSex!=null and passSex!=''">
+                passSex=#{passSex}
+            </if>
+        </set>
+        where idNumber=#{idNumber};
+    </update>
+
+
+    <select id="queryPassenger" parameterType="String" resultType="jmu.lsk.po.Passenger">
+        select * from passenger,link where passenger.idNumber=link.idNumber and link.loginId=#{loginId}
+    </select>
+
+    <select id="findByIdNumber" parameterType="String" resultType="jmu.lsk.po.Passenger">
+        select * from passenger where idNumber=#{idNumber};
+    </select>
+</mapper>

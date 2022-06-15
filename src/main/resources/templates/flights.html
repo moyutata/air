@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>航班信息</title>
+    <link rel="stylesheet" href="asserts/css/navigate.css">
+    <link rel="stylesheet" href="asserts/css/table.css">
+    <style type="text/css">
+        .textType{
+            margin: 0;
+        }
+        .div-title{
+            background-color: #081e7f;
+            height: 25px;
+        }
+        .div-title input{
+            color: white;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .div-flight{
+            background-color: #24a1fc;
+            height: 25px;
+        }
+        .div-flight span>input{
+            color: white;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<div align="center">
+    <img src="asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a th:href="@{/queryOrders(loginId=${session.user.getLoginId()})}">查询订单</a>
+            <a th:href="@{/queryPassenger}">乘机人管理</a>
+            <a th:href="@{/logout}">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="/search">查询航班</a>
+        </div>
+    </li>
+    <li><a href="/queryFlight">主页</a> </li>
+</ul>
+<div align="center">
+    <form action="/searchFlight" method="post">
+        <table>
+            <tr><th>出发地</th><th>目的地</th><th>出发时间</th><th></th></tr>
+            <tr>
+                <td><input type="text" name="depart"></td>
+                <td><input type="text" name="arrival"></td>
+                <td><input type="date" name="execDate"></td>
+                <td><input type="submit" value="查询"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div class="textType" align="center" th:each="flight:${execFlights}">
+    <div class="div-title" th:text="'单程:'+${flight.getDeFlight().getTerminal().getAirport().getCity().getCityName()}+'-'+${flight.getArFlight().getTerminal().getAirport().getCity().getCityName()}+'    '+${#dates.format(flight.getExecDate(),'yyyy-MM-dd')}"></div>
+    <div class="div-flight" th:text="'航班号：'+${flight.getExecId()}"></div>
+    <div th:text="'('+${flight.getDeFlight().getTerminal().getAirport().getAirportName()}+${flight.getDeFlight().getTerminal().getTerminalName()}+')'+${#dates.format(flight.getEstimateDeparture(),'HH:mm')}+'——————————————————————>('
+        +${flight.getArFlight().getTerminal().getAirport().getAirportName()}+${flight.getArFlight().getTerminal().getTerminalName()}+')'+${#dates.format(flight.getEstimateArrival(),'HH:mm')}+'('+${flight.getStatus()}+')'"></div>
+    <table class="tables">
+        <tr th:each="type:${flight.getTicketTypeList()}">
+            <td th:text="${type.getShipping().getShippingGrade()}"></td>
+            <td th:text="${type.getSalePrice()}"></td>
+            <td th:text="${type.getIsMeal()}"></td>
+            <td><a th:href="@{/findExactFlight(depart=${flight.getDeFlight().getTerminal().getAirport().getCity().getCityName()},arrival=${flight.getArFlight().getTerminal().getAirport().getCity().getCityName()},execDate=${#dates.format(flight.getExecDate(),'yyyy-MM-dd')},execId=${flight.getExecId()},shippingId=${type.getShipping().getShippingId()})}">预定</a></td>
+            <td th:text="'余票：'+${type.getRemains()}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

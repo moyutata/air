@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>所有机场</title>
+    <!-- Bootstrap core CSS -->
+    <link href="asserts/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="asserts/css/dashboard.css" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{mainView::top}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{mainView::sider(s='c')}"></div>
+    </div>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <h2><a th th:href="@{/addAirport}">新增机场</a></h2>
+        <h3 align="center">所有机场信息</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                  <th>省份</th><th>城市</th><th>机场名称</th><th>航站楼</th><th>修改</th><th>删除</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="msgs:${msg}">
+                    <td th:text="${msgs.getCity().getProvince().getProvinceName()}"></td>
+                    <td th:text="${msgs.getCity().getCityName()}"></td>
+                    <td th:text="${msgs.getAirportName()}"></td>
+                    <td><a th:href="@{/selectTerminal(Id=${msgs.getAirportId()})}" th:text="航站楼"></a></td>
+                    <td><a th:href="@{/updateAirport(Id=${msgs.getAirportId()})}" th:text="修改"></a></td>
+                    <td><a th:href="@{/deleteAirport(Id=${msgs.getAirportId()})}" th:text="删除"></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+<div>
+</div>
+</body>
+</html>

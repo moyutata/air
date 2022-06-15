@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增座位</title>
+</head>
+<body>
+<form action="/addSeats" method="post">
+    <table border="1" align="center">
+        <caption>座位信息</caption>
+        <tr>
+            <th>飞机编号:</th>
+            <td><input name="aircraftId" th:value="${msg}" readonly="readonly"/></td>
+        </tr>
+
+        <tr>
+            <th>座位编号:</th>
+            <td><input name="seatId" type="text"/></td>
+        </tr>
+        <tr>
+            <th>舱位等级:</th>
+            <td>
+                <select name="shippingId">
+                    <option>请选择舱位</option>
+                    <option th:each="ship:${msgS}" th:value="${ship.shippingId}" th:text="${ship.shippingGrade}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>座位位置:</th>
+            <td><input name="location" type="text"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+</form>
+<h3><a th:href="@{/selectAllAircraft}">返回主界面</a></h3>
+</body>
+</html>

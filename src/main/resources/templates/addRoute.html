@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增航线</title>
+</head>
+<body>
+<form action="/addRoutes" method="post">
+    <table border="1" align="center">
+        <caption>航线信息</caption>
+        <tr>
+            <th>出发城市:</th>
+            <td>
+                <select name="depart">
+                    <option>请选择市</option>
+                    <option th:each="city:${msgC}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>出发机场:</th>
+            <td>
+                <select name="departN">
+                    <option>请选择机场</option>
+                    <option th:each="air:${msgA}" th:value="${air.airportName}" th:text="${air.airportName}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>出发航站楼:</th>
+            <td>
+                <select name="departTerminal">
+                    <option>请选择航站楼</option>
+                    <option th:each="ter:${msgT}" th:value="${ter.terminalId}" th:text="${ter.terminalName}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>航班:</th>
+            <td>
+                <select name="aircraftId">
+                    <option>请选择航班</option>
+                    <option th:each="flight:${msgH}" th:value="${flight.aircraftId}" th:text="${flight.aircraftName}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>出发时间:</th>
+            <td>
+                <input type="datetime-local" name="departTimeR"/>
+            </td>
+        </tr>
+        <tr>
+            <th>到达城市:</th>
+            <td>
+                <select name="arrival">
+                    <option>请选择市</option>
+                    <option th:each="city:${msgC}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>到达机场:</th>
+            <td>
+                <select name="arrivalN">
+                    <option>请选择机场</option>
+                    <option th:each="air:${msgA}" th:value="${air.airportName}" th:text="${air.airportName}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>到达航站楼:</th>
+            <td>
+                <select name="arrivalTerminal">
+                    <option>请选择航站楼</option>
+                    <option th:each="ter:${msgT}" th:value="${ter.terminalId}" th:text="${ter.terminalName}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>到达时间:</th>
+            <td>
+                <input type="datetime-local" name="arrivalTimeR"/>
+            </td>
+        </tr>
+        <tr>
+            <th>机票价格:</th>
+            <td>
+                <input type="text" name="price"/>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

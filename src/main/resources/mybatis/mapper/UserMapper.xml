@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.lsk.mapper.UserMapper">
+    <select id="allUser"  resultType="jmu.lsk.po.User">
+        select *
+        from user;
+    </select>
+<!--    张思文-->
+    <insert id="insertUser" parameterType="jmu.lsk.po.User">
+        insert into user(loginId,password,tel,email,userName,sex,age) values (#{loginId},#{password},#{tel},#{email},#{userName},#{sex},#{age});
+    </insert>
+    <select id="certificate" parameterType="String" resultType="jmu.lsk.po.User">
+        select * from user where loginId = #{loginId};
+    </select>
+</mapper>

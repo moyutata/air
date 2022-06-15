@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="asserts/css/login.css">
+</head>
+<body>
+<div id="content">
+    <div class="login-header">
+        <img src="asserts/img/logo.png">
+    </div>
+    <form action="/certificate" method="post">
+        <div class="login-input-box">
+            <span class="icon icon-user"></span>
+            <input type="text" placeholder="请输入登录账号" name="loginId">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-password"></span>
+            <input type="password" placeholder="请输入密码" name="password">
+        </div>
+        <div class="logon-box">
+            <span th:text="${msg}"></span>
+        </div>
+        <div class="login-button-box">
+            <input type="submit" value="登录">
+        </div>
+    </form>
+    <div class="logon-box">
+        <a href="/register">注册新账号</a>
+        <a th:href="@{/adminLogin}">管理员登录</a>
+    </div>
+</div>
+
+</body>
+</html>

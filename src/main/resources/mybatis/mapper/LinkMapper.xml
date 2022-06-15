@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.lsk.mapper.LinkMapper">
+    <insert id="insertLink" parameterType="jmu.lsk.po.Link">
+        insert into link values(#{idNumber},#{loginId},#{userId},#{linkTime});
+    </insert>
+    <delete id="deleteLink" parameterType="jmu.lsk.po.Link">
+        delete from link where idNumber=#{idNumber} and loginId=#{loginId} and userId=#{userId};
+    </delete>
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.lsk.mapper.FlightMapper">
+    <select id="AllFlight"  resultType="jmu.lsk.po.Flight" >
+        select m.flightId,m.depart,n.arrival,m.price,m.departureTime,m.departN,m.departT,n.arrivalTime,n.arrivalT,m.aircraftName,n.arrivalN,m.aircraftId from
+        (select a.flightId,d.cityName depart,a.price,a.departureTime,f.airportName departN,e.aircraftName,b.terminalName departT,a.aircraftId
+         from flight a,terminal b, airport f, city d,aircraft e
+         where a.departTerminal = b.terminalId
+           and a.aircraftId=e.aircraftId
+         and b.airportId=f.airportId
+        and f.cityId=d.cityId
+        )m,
+        (select a.flightId,d.cityName arrival,a.price,a.departureTime,a.arrivalTime,b.terminalName arrivalT,c.airportName arrivalN
+        from flight a,terminal b, airport c, city d
+        where a.arrivalTerminal = b.terminalId
+        and b.airportId=c.airportId
+        and c.cityId=d.cityId
+        )n
+        where m.flightId=n.flightId
+    </select>
+    <insert id="addRoute" useGeneratedKeys="true" keyProperty="flightId" parameterType="jmu.lsk.po.Flight">
+        insert into flight(departTerminal,aircraftId,arrivalTerminal,departureTime,arrivalTime,price) values(#{departTerminal},#{aircraftId},#{arrivalTerminal},#{departTimeR},#{arrivalTimeR},#{price})
+    </insert>
+    <select id="selectFlight" parameterType="int" resultType="jmu.lsk.po.Flight">
+        select * from flight where flightId=#{Id};
+    </select>
+    <select id="selectReport" resultType="jmu.lsk.po.Flight">
+    select m.flightId,m.depart,n.arrival,m.price,m.departureTime,m.departN,m.departT,n.arrivalTime,n.arrivalT,m.aircraftName,n.arrivalN,m.aircraftId from
+    (select a.flightId,d.cityName depart,a.price,a.departureTime,f.airportName departN,e.aircraftName,b.terminalName departT,a.aircraftId
+    from flight a,terminal b, airport f, city d,aircraft e,executiveflight g
+    where a.departTerminal = b.terminalId
+    and a.aircraftId=e.aircraftId
+    and b.airportId=f.airportId
+    and f.cityId=d.cityId
+    and a.flightId=g.flightId
+    and a.aircraftId=#{param1}
+    and departureTime between #{param2}  and #{param3}
+    )m,
+    (select a.flightId,d.cityName arrival,a.price,a.departureTime,a.arrivalTime,b.terminalName arrivalT,c.airportName arrivalN
+    from flight a,terminal b, airport c, city d,executiveflight g
+    where a.arrivalTerminal = b.terminalId
+    and b.airportId=c.airportId
+    and c.cityId=d.cityId
+    and a.flightId=g.flightId
+    and a.aircraftId=#{param1}
+    and departureTime between #{param2}  and #{param3}
+    )n
+    where m.flightId=n.flightId
+    </select>
+    <select id="selectCount" resultType="jmu.lsk.po.Count">
+    select b.execId, count(*) ticks
+    from flight a,executiveflight b,ticket c
+    where a.flightId=b.flightId and b.execId=c.execId and a.aircraftId=#{param1} and    departureTime between #{param2}  and #{param3}
+    group by b.execId;
+    </select>
+    <select id="selectAllSeat" parameterType="int" resultType="int">
+        select count(*)
+        from seat
+        where  aircraftId=#{Id};
+    </select>
+    <delete id="deleteFlight" parameterType="int">
+        delete  from flight where flightId=#{Id};
+    </delete>
+<!--   张思文-->
+
+    <select id="queryFlight" resultType="jmu.lsk.po.Flight">
+        select m.depart,n.arrival,m.price,m.departureTime from
+                                                              (select a.flightId,d.cityName depart,a.price,a.departureTime
+                                                               from flight a,terminal b, airport c, city d
+                                                               where a.departTerminal = b.terminalId
+                                                                 and b.airportId=c.airportId
+                                                                 and c.cityId=d.cityId
+                                                              )m,
+                                                              (select a.flightId,d.cityName arrival,a.price,a.departureTime
+                                                               from flight a,terminal b, airport c, city d
+                                                               where a.arrivalTerminal = b.terminalId
+                                                                 and b.airportId=c.airportId
+                                                                 and c.cityId=d.cityId
+                                                              )n
+        where m.flightId=n.flightId
+        order by m.price asc
+            limit 8;
+    </select>
+
+</mapper>

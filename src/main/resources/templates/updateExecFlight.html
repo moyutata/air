@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>执飞航班</title>
+</head>
+<body>
+<form action="/updateExecFlights" method="post">
+    <table border="1" align="center">
+        <caption>修改执飞航班</caption>
+        <input type="hidden" name="execId" th:value="${msg.execId}">
+        <tr>
+            <th>航班ID:</th>
+            <td><input type="number" name="flightId" readonly="readonly" th:value="${msg.flightId}"/></td>
+        </tr>
+        <tr>
+            <th>执飞日期:</th>
+            <td><input type="text" readonly="readonly" name="execDateR" th:value="${#dates.format(msg.execDate ,'yyyy-MM-dd')}"/></td>
+        </tr>
+        <tr>
+            <th>执行价格:</th>
+            <td><input type="text" name="execPrice" th:value="${msg.execPrice}"/></td>
+        </tr>
+        <tr>
+            <th>飞机状态:</th>
+            <td>
+                <select name="status">
+                    <option th:value="${msg.status}" th:text="${msg.status}"></option>
+                    <option value="直达">直达</option>
+                    <option value="停靠">停靠</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>登机口:</th>
+            <td>
+                <input type="text" name="boardingGate" th:value="${msg.boardingGate}"/>
+            </td>
+        </tr>
+        <tr>
+            <th>登机时间:</th>
+            <td>
+                <input type="text" name="boardingTimeR" th:value="${#dates.format(msg.boardingTime,'yyyy-MM-dd HH:mm:ss')}"/>
+            </td>
+        </tr>
+        <tr>
+            <th>计划起飞:</th>
+            <td><input type="text" readonly="readonly" name="estimateDepartureR" th:value="${#dates.format(msg.estimateDeparture ,'yyyy-MM-dd HH:mm:ss')}"/></td>
+        </tr>
+        <tr>
+            <th>实际起飞:</th>
+            <td><input th:type="${msg.actualDeparture==null ?'datetime-local':'text'}" name="actualDepartureR" th:value="${#dates.format(msg.actualDeparture ,'yyyy-MM-dd HH:mm:ss')}"/>
+            </td>
+        </tr>
+        <tr>
+            <th>计划到达:</th>
+            <td><input type="text" readonly="readonly" name="estimateArrivalR" th:value="${#dates.format(msg.estimateArrival ,'yyyy-MM-dd HH:mm:ss')}"/></td>
+        </tr>
+        <tr>
+            <th>实际到达:</th>
+            <td><input th:type="${msg.actualDeparture==null ?'datetime-local':'text'}" name="actualArrivalR" th:value="${#dates.format(msg.actualArrival ,'yyyy-MM-dd HH:mm:ss')}"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+    <h3><a th:href="@{/selectAllRoute}">返回主界面</a></h3>
+</form>
+</body>
+</html>

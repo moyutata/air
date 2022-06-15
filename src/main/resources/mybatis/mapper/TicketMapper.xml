@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.lsk.mapper.TicketMapper">
+    <insert id="insertTicket" parameterType="jmu.lsk.po.Ticket">
+        insert into ticket
+        values(#{ticketId},#{orderId},#{idNumber},#{execId},#{shippingId},#{seatId},#{cost},#{insurance},#{totalcost},#{remarks},#{isCheckIn},#{boardingNumber});
+    </insert>
+
+    <delete id="deleteTicket" parameterType="Integer">
+        delete from ticket where orderId=#{orderId};
+    </delete>
+
+    <resultMap id="TicketShippingPassengerMap" type="jmu.lsk.po.Ticket">
+        <id property="ticketId" column="ticketId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="idNumber" column="idNumber"/>
+        <result property="execId" column="execId"/>
+        <result property="shippingId" column="shippingId"/>
+        <result property="seatId" column="seatId"/>
+        <result property="isCheckIn" column="isCheckIn"/>
+        <result property="boardingNumber" column="boardingNumber"/>
+        <association property="shipping" javaType="jmu.lsk.po.Shipping">
+            <id property="shippingId" column="shippingId"/>
+            <result property="shippingGrade" column="shippingGrade"/>
+        </association>
+        <association property="passenger" javaType="jmu.lsk.po.Passenger">
+            <id property="idNumber" column="idNumber"/>
+            <result property="passName" column="passName"/>
+        </association>
+    </resultMap>
+    <select id="queryTicket" resultMap="TicketShippingPassengerMap" parameterType="String">
+        select a.*,b.shippingGrade,c.passName from ticket a,shipping b,passenger c
+        where a.shippingId=b.shippingId and a.idNumber=c.idNumber
+            and ticketId=#{ticketId};
+    </select>
+
+    <update id="updateTicket" parameterType="jmu.lsk.po.Ticket">
+        update ticket set seatId=#{seatId} where ticketId=#{ticketId};
+    </update>
+</mapper>

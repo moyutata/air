@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>执飞航班</title>
+</head>
+<body>
+<form action="/addExecFlights" method="post">
+    <table border="1" align="center">
+        <caption>新增执飞航班</caption>
+        <tr>
+            <th>航班ID:</th>
+            <td><input type="text" name="flightId" readonly="readonly" th:value="${msgF.flightId}"/></td>
+        </tr>
+        <tr>
+            <th>执飞日期:</th>
+            <td><input type="text" readonly="readonly" name="execDateR" th:value="${#dates.format(msgF.departureTime ,'yyyy-MM-dd')}"/></td>
+        </tr>
+        <tr>
+            <th>执行价格:</th>
+            <td><input type="text" name="execPrice"/></td>
+        </tr>
+        <tr>
+            <th>飞机状态:</th>
+            <td>
+                <select name="status">
+                <option>请选择状态</option>
+                <option value="直达">直达</option>
+                    <option value="停靠">停靠</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>登机口:</th>
+            <td>
+                <input type="text" name="boardingGate"/>
+            </td>
+        </tr>
+        <tr>
+            <th>登机时间:</th>
+            <td>
+                <input type="datetime-local" name="boardingTimeR"/>
+            </td>
+        </tr>
+        <tr>
+            <th>计划起飞:</th>
+            <td><input type="text" readonly="readonly" name="estimateDepartureR" th:value="${#dates.format(msgF.departureTime ,'yyyy-MM-dd HH:mm:ss')}"/></td>
+        </tr>
+        <tr>
+            <th>实际起飞:</th>
+            <td><input type="datetime-local" name="actualDepartureR"/></td>
+        </tr>
+        <tr>
+            <th>计划到达:</th>
+            <td><input type="text" readonly="readonly" name="estimateArrivalR" th:value="${#dates.format(msgF.arrivalTime ,'yyyy-MM-dd HH:mm:ss')}"/></td>
+        </tr>
+        <tr>
+            <th>实际到达:</th>
+            <td><input type="datetime-local" name="actualArrivalR"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+
+</form>
+</body>
+</html>

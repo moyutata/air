@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>厦门航空</title>
+    <link rel="stylesheet" href="asserts/css/navigate.css">
+    <link rel="stylesheet" href="asserts/css/table.css">
+</head>
+<body>
+<div align="center">
+    <img src="asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a th:href="@{/queryOrders(loginId=${session.user.getLoginId()})}">查询订单</a>
+            <a th:href="@{/queryPassenger}">乘机人管理</a>
+            <a th:href="@{/logout}">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="/search">查询航班</a>
+        </div>
+    </li>
+    <li><a class="active" href="/queryFlight">主页</a> </li>
+</ul>
+<div align="center" class="div-style">
+    <table id="tables" title="特价推荐">
+        <tr><th>出发</th><th>到达</th><th>价格</th><th>起飞时间</th></tr>
+        <tr th:each="flight:${flightList}">
+            <td th:text="${flight.getDepart()}"></td>
+            <td th:text="${flight.getArrival()}"></td>
+            <td th:text="${flight.getPrice()}"></td>
+            <td th:text="${#dates.format(flight.getDepartureTime(),'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

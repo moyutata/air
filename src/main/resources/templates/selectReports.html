@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>选择时间</title>
+</head>
+<body>
+<h3>请选择时间段</h3>
+<form action="/selectReport" method="post">
+    <input type="hidden" th:name="Id" th:value="${msg}" />
+    <input type="datetime-local" name="timeStart"/>
+    <input type="datetime-local" name="timeEnd"/>
+    <input type="submit" value="查询"/>
+</form>
+<h3><a th:href="@{/selectAllAircraft}">返回主界面</a></h3>
+</body>
+</html>

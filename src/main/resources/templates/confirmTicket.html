@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>购买机票</title>
+    <link rel="stylesheet" href="asserts/css/navigate.css">
+    <link rel="stylesheet" href="asserts/css/update.css">
+</head>
+<body>
+<div align="center">
+    <img src="asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a th:href="@{/queryOrders(loginId=${session.user.getLoginId()})}">查询订单</a>
+            <a th:href="@{/queryPassenger}">乘机人管理</a>
+            <a th:href="@{/logout}">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="/search">查询航班</a>
+        </div>
+    </li>
+    <li><a href="/queryFlight">主页</a> </li>
+</ul>
+<div class="div-style">
+    <form action="/insertOrder" method="post" class="basic-grey">
+        <h1>2.确认航班信息</h1>
+        <label>
+            <span>乘机人姓名</span>
+            <span th:text="${session.passenger.getPassName()}"></span><br/>
+            <input id="passName" type="hidden" th:value="${session.passenger.getPassName()}" name="passName">
+        </label>
+        <label>
+            <span>身份证号</span>
+            <span th:text="${session.passenger.getIdNumber()}"></span><br/>
+            <input id="idNumber" type="hidden" th:value="${session.passenger.getIdNumber()}" name="idNumber">
+        </label>
+        <label>
+            <span>出行路线</span>
+            <span th:text="${session.execFlight.getDeFlight().getTerminal().getAirport().getCity().getCityName()}+'-'+${session.execFlight.getArFlight().getTerminal().getAirport().getCity().getCityName()}"></span><br/>
+        </label>
+        <label>
+            <span>起飞时间</span>
+            <span th:text="${#dates.format(session.execFlight.getEstimateDeparture(),'yyyy-MM-dd HH:mm:ss')}"/>
+                <br/>
+        </label>
+        <label>
+            <span>价格</span>
+            <span th:text="${session.execFlight.getExecPrice()}"></span>
+            <input type="hidden" th:value="${session.execFlight.getExecPrice()}" name="totalPrice"><br/>
+        </label>
+        <input type="hidden" value="已付款" name="paymentStatus">
+        <input type="hidden" th:value="${session.user.getLoginId()}" name="loginId">
+        <input type="hidden" th:value="${session.user.getUserId()}" name="userId">
+        <input type="hidden" th:value="${session.user.getTel()}" name="tel">
+        <label>
+            <span>&nbsp;</span>
+            <input type="submit" class="button" value="确认">
+        </label>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="asserts/css/register.css">
+</head>
+<body>
+<div id="content">
+    <div class="login-header">
+        <img src="asserts/img/logo.png">
+    </div>
+    <form action="/insertUser.do" method="post">
+        <div class="login-input-box">
+            <span class="icon icon-user"></span>
+            <input type="text" placeholder="请输入登录账号" name="loginId">
+            <span th:text="${loginmsg}"/>
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-password"></span>
+            <input type="password" placeholder="请输入密码" name="password">
+            <span th:text="${passmsg}"/>
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-confirm"></span>
+            <input type="password" placeholder="请再次输入密码" name="confirm">
+            <span th:text="${confirmmsg}"/><span th:text="${msg}"/>
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-user"></span>
+            <input type="text" placeholder="请输入昵称" name="userName">
+        </div>
+        <div class="gender-box">
+            <label for="content">性别</label>
+            <div class="gender-input"><input type="radio" name="sex" value="男" checked="checked">男
+                <input type="radio" name="sex" value="女">女</div>
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-age"></span>
+            <input type="number" placeholder="请输入年龄" name="age">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-tel"></span>
+            <input type="text" placeholder="请输入联系电话" name="tel">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-email"></span>
+            <input type="email" placeholder="请输入电子邮件" name="email">
+        </div>
+        <div class="login-button-box">
+            <input type="submit" value="注册">
+        </div>
+    </form>
+    <div class="logon-box">
+        <a href="/mainpage">已有账号?去登录 -></a>
+    </div>
+</div>
+
+</body>
+</html>

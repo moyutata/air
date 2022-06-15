@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>在线值机</title>
+    <link rel="stylesheet" href="asserts/css/navigate.css">
+    <link rel="stylesheet" href="asserts/css/update.css">
+</head>
+<body>
+<div align="center">
+    <img src="asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a th:href="@{/queryOrders(loginId=${session.user.getLoginId()})}">查询订单</a>
+            <a th:href="@{/queryPassenger}">乘机人管理</a>
+            <a th:href="@{/logout}">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="/search">查询航班</a>
+        </div>
+    </li>
+    <li><a href="/queryFlight">主页</a> </li>
+</ul>
+<div class="div-style">
+    <form action="/insertSeatChosen" method="post" class="basic-grey">
+        <h1>在线值机</h1>
+            <table border="1" align="center">
+                <tr>
+                    <td>窗户</td>
+                    <td>█ 1</td>
+                    <td>█ 2</td>
+                    <td>█ 3</td>
+                    <td>过道</td>
+                    <td>█ 4</td>
+                    <td>█ 5</td>
+                    <td>窗户</td>
+                </tr>
+            </table>
+        <label>
+            <span>位置选择</span>
+            <select name="seatId">
+                <option th:each="seat:${seats}" th:value="${seat.getSeatId()}" th:text="${seat.getSeatId()}"></option>
+            </select>
+        </label>
+        <input id="execId" type="hidden" name="execId" th:value="${session.tickets.getExecId()}">
+        <input id="ticketId" type="hidden" name="ticketId" th:value="${ticketId}">
+        <input id="seatStatus" type="hidden" name="seatChosen" value="已选">
+        <label>
+            <span>&nbsp;</span>
+            <input type="submit" class="button" value="确认">
+        </label>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加乘机人</title>
+    <link rel="stylesheet" href="asserts/css/update.css">
+    <link rel="stylesheet" href="asserts/css/navigate.css">
+</head>
+<body>
+<div align="center">
+    <img src="asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a th:href="@{/queryOrders(loginId=${session.user.getLoginId()})}">查询订单</a>
+            <a th:href="@{/queryPassenger}">乘机人管理</a>
+            <a th:href="@{/logout}">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="/search">查询航班</a>
+        </div>
+    </li>
+    <li><a href="/queryFlight">主页</a> </li>
+</ul>
+<div class="div-style">
+    <form action="/insertPassenger" method="post" class="basic-grey">
+        <h1>添加乘机人员信息</h1>
+        <label>
+            <span>乘机人姓名</span>
+            <input id="passName" type="text" placeholder="请输入乘机人姓名" name="passName">
+        </label>
+        <label>
+            <span>身份证号</span>
+            <input id="idNumber" type="text" placeholder="请输入乘机人有效证件号" name="idNumber">
+        </label>
+        <label>
+            <span>性别</span>
+            <select name="selection">
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+        </label>
+        <label>
+            <span>联系方式</span>
+            <input id="passTel" type="text" placeholder="请输入联系电话" name="passTel">
+        </label>
+        <input id="loginId" type="hidden" name="loginId" th:value="${session.user.getLoginId()}">
+        <input id="userId" type="hidden" name="userId" th:value="${session.user.getUserId()}">
+        <label>
+            <span>&nbsp;</span>
+            <input type="submit" class="button" value="添加">
+        </label>
+    </form>
+</div>
+</body>
+</html>

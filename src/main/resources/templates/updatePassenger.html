@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改乘机人员信息</title>
+    <link rel="stylesheet" href="asserts/css/navigate.css">
+    <link rel="stylesheet" href="asserts/css/update.css">
+</head>
+<body>
+<div align="center">
+    <img src="asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a th:href="@{/queryOrders(loginId=${session.user.getLoginId()})}">查询订单</a>
+            <a th:href="@{/queryPassenger}">乘机人管理</a>
+            <a th:href="@{/logout}">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="/search">查询航班</a>
+        </div>
+    </li>
+    <li><a href="/queryFlight">主页</a> </li>
+</ul>
+<div class="div-style">
+    <form action="/updatePassenger" method="post" class="basic-grey">
+        <h1>修改乘机人员信息</h1>
+        <label>
+            <span>乘机人姓名</span>
+            <input id="passName" type="text" name="passName" th:value="${passenger.getPassName()}">
+        </label>
+        <label>
+            <span>身份证号</span>
+            <input id="idNumber" type="text" name="idNumber" th:value="${passenger.getIdNumber()}">
+        </label>
+        <label>
+            <span>性别</span>
+            <input id="passSex" type="text" name="passSex" th:value="${passenger.getPassSex()}">
+        </label>
+        <label>
+            <span>联系方式</span>
+            <input id="passTel" type="text" name="passTel" th:value="${passenger.getPassTel()}">
+        </label>
+        <label>
+            <span>&nbsp;</span>
+            <input type="submit" class="button" value="确定修改">
+        </label>
+    </form>
+</div>
+</body>
+</html>

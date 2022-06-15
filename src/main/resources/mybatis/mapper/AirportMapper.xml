@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.lsk.mapper.AirportMapper">
+    <resultMap id="ComAir" type="jmu.lsk.po.Airport">
+        <id column="airportId" property="airportId"/>
+        <result column="airportName" property="airportName"/>
+        <result column="cityId" property="cityId"/>
+        <association property="city" javaType="jmu.lsk.po.City">
+            <id column="cityId" property="cityId"/>
+            <result column="cityName" property="cityName"/>
+            <result column="provinceId" property="provinceId"/>
+            <association property="province" javaType="jmu.lsk.po.Province">
+                <id column="provinceId" property="provinceId"/>
+                <result column="provinceName" property="provinceName"/>
+            </association>
+        </association>
+    </resultMap>
+    <select id="allAirport" resultMap="ComAir">
+        select airport.*,city.cityId,city.cityName,city.provinceId,province.*
+        from airport,city,province
+        where airport.cityId=city.cityId and city.provinceId=province.provinceId;
+    </select>
+    <insert id="addAirport" useGeneratedKeys="true" keyProperty="airportId" parameterType="jmu.lsk.po.Airport">
+        insert into airport(cityId,airportName) values(#{cityId},#{airportName});
+    </insert>
+    <select id="allAircraft" resultType="jmu.lsk.po.Aircraft">
+        select* from aircraft;
+    </select>
+    <insert id="addAircraft" useGeneratedKeys="true" keyProperty="aircraftId" parameterType="jmu.lsk.po.Aircraft">
+        insert into aircraft (aircraftName)
+        values (#{aircraftName});
+    </insert>
+    <select id="allSeat" resultType="jmu.lsk.po.Seat" parameterType="int">
+        select* from seat where aircraftId=#{aircraftId};
+    </select>
+    <insert id="addSeat" parameterType="jmu.lsk.po.Seat">
+        insert into seat values(#{seatId},#{shippingId},#{aircraftId},#{location});
+    </insert>
+    <insert id="addShipping" parameterType="jmu.lsk.po.Shipping">
+        insert into shipping values(#{shippingId},#{shippingGrade});
+    </insert>
+    <delete id="deleteAirport" parameterType="int">
+        delete from airport where airportId=#{Id};
+    </delete>
+    <update id="updateAirport" parameterType="jmu.lsk.po.Airport">
+        update airport set cityId=#{cityId},airportName=#{airportName} where airportId=#{airportId};
+    </update>
+    <select id="selectAirport" parameterType="int" resultType="jmu.lsk.po.Airport">
+        select* from airport where airportId=#{Id};
+    </select>
+    <select id="selectAircraft" parameterType="int" resultType="jmu.lsk.po.Aircraft">
+        select* from aircraft where  aircraftId=#{Id};
+    </select>
+    <delete id="deleteAircraft" parameterType="int">
+        delete from aircraft where aircraftId=#{Id};
+    </delete>
+    <update id="updateAircraft" parameterType="jmu.lsk.po.Aircraft">
+        update aircraft set aircraftName=#{aircraftName} where aircraftId=#{aircraftId};
+    </update>
+    <delete id="deleteSeat" parameterType="jmu.lsk.po.Seat">
+        delete from seat where seatId=#{seatId}
+    </delete>
+</mapper>

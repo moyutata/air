@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增机票种类</title>
+</head>
+<body>
+<form action="/addTicketType" method="post">
+    <table border="1" align="center">
+        <caption>机票种类信息</caption>
+        <tr>
+            <th>执飞航班编号:</th>
+            <td><input th:value="${msgE}"  readonly="readonly" name="execId"/></td>
+        </tr>
+        <tr>
+            <th>舱位等级:</th>
+            <td>
+                <select name="shippingId">
+                    <option>请选择舱位</option>
+                    <option th:each="ship:${msgS}" th:value="${ship.shippingId}" th:text="${ship.shippingGrade}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>机票价格:</th>
+            <td><input type="text" name="salePrice"></td>
+        </tr>
+        <tr>
+            <th>折扣:</th>
+            <td><input type="text" name="discount"></td>
+        </tr>
+        <tr>
+            <th>票量</th>
+            <td><input type="number" name="remains"></td>
+        </tr>
+        <tr>
+            <th>行李重量(斤):</th>
+            <td><input type="number" name="totalWeight"></td>
+        </tr>
+        <tr>
+            <th>行李件数:</th>
+            <td><input type="number" name="luggagerAmount"></td>
+        </tr>
+        <tr>
+            <th>餐食:</th>
+            <td><input type="text" name="isMeal"></td>
+        </tr>
+        <tr>
+            <th>退改签规则:</th>
+            <td>
+                <textarea name="refund" rows="4" cols="40"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

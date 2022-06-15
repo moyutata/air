@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.lsk.mapper.OrdersMapper">
+    <resultMap id="OrdersAndUserMap" type="jmu.lsk.po.Orders">
+        <id column="orderId" property="orderId"/>
+        <result column="loginId" property="loginId"/>
+        <result column="totalPrice" property="totalPrice"/>
+        <result column="paymentStatus" property="paymentStatus"/>
+        <result column="tel" property="tel"/>
+        <association property="user" javaType="jmu.lsk.po.User">
+            <id column="userId" property="userId"/>
+            <result column="userName" property="userName"/>
+        </association>
+    </resultMap>
+    <select id="queryOrders" parameterType="String" resultMap="OrdersAndUserMap">
+        select orders.orderId,orders.loginId,user.userName,orders.totalPrice,orders.paymentStatus,orders.tel
+        from orders,user where orders.userId = user.userId and orders.loginId=#{loginId};
+    </select>
+
+    <insert id="insertOrder" parameterType="jmu.lsk.po.Orders">
+        insert into orders(loginId,userId,totalPrice,paymentStatus,tel) values (#{loginId},#{userId},#{totalPrice},#{paymentStatus},#{tel});
+    </insert>
+
+    <delete id="deleteOrder" parameterType="Integer">
+        delete from orders where orderId=#{orderId};
+    </delete>
+
+    <select id="queryLatest" resultType="jmu.lsk.po.Orders">
+        select * from orders order by orderId desc limit 1;
+    </select>
+</mapper>

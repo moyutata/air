@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>执飞航班信息</title>
+    <!-- Bootstrap core CSS -->
+    <link href="asserts/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="asserts/css/dashboard.css" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{mainView::top}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{mainView::sider(s='r')}"></div>
+    </div>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <h2><a th th:href="@{/addExecFlight(flightId=${mi})}">新增执飞航班</a></h2>
+        <h3 align="center">执飞航班信息</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th>航班编号</th><th>执行日期</th><th>执行价格</th><th>状态</th><th>登机口</th><th>登机时间</th><th>计划出发</th><th>实际出发</th><th>计划到达</th><th>实际到达</th><th>票类</th>
+                    <th>修改</th><th>删除</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${msg} ne null">
+                    <td th:text="${mn}"></td>
+                    <td th:text="${#dates.format(msg.execDate ,'yyyy-MM-dd')}"></td>
+                    <td th:text="${msg.execPrice}"></td>
+                    <td th:text="${msg.status}"></td>
+                    <td th:text="${msg.boardingGate}"></td>
+                    <td th:text="${#dates.format(msg.boardingTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(msg.estimateDeparture,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(msg.actualDeparture,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(msg.estimateArrival,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(msg.actualArrival,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td><a th:href="@{/selectTicketTypes(execId=${msg.execId})}" th:text="票类"></a></td>
+                    <td><a th:href="@{/updateExecFlight(execId=${msg.execId})}" th:text="修改"></a></td>
+                    <td><a th:href="@{/deleteExecFlight(execId=${msg.execId})}" th:text="删除"></a></td>
+                </tr>
+                </tbody>
+            </table>
+            <h3><a th:href="@{/selectAllRoute}">返回主界面</a></h3>
+        </div>
+    </main>
+</div>
+<div>
+</div>
+</body>
+</html>

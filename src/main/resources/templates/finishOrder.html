@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>购买机票</title>
+    <link rel="stylesheet" href="asserts/css/navigate.css">
+    <link rel="stylesheet" href="asserts/css/update.css">
+</head>
+<body>
+<div align="center">
+    <img src="asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a th:href="@{/queryOrders(loginId=${session.user.getLoginId()})}">查询订单</a>
+            <a th:href="@{/queryPassenger}">乘机人管理</a>
+            <a th:href="@{/logout}">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="/search">查询航班</a>
+        </div>
+    </li>
+    <li><a href="/queryFlight">主页</a> </li>
+</ul>
+<div class="div-style">
+    <form action="/insertTicket" method="post" class="basic-grey">
+        <h1>3.完成购买</h1>
+        <span>您已完成本次机票购买！</span>
+        <input type="hidden" th:value="${session.user.getLoginId()}+${order.getOrderId()}" name="ticketId">
+        <input type="hidden" th:value="${order.getOrderId()}" name="orderId">
+        <input type="hidden" th:value="${session.passenger.getIdNumber()}" name="idNumber">
+        <input type="hidden" th:value="${session.exactFlight.getExecId()}" name="execId">
+        <input type="hidden" th:value="${session.exactFlight.getShippingId()}" name="shippingId">
+        <input type="hidden" value="null" name="seatId">
+        <input type="hidden" value="30" name="cost">
+        <input type="hidden" value="50" name="insurance">
+        <input type="hidden" th:value="${session.execFlight.getExecPrice()+80}" name="totalcost">
+        <input type="hidden" value="null" name="remarks">
+        <input type="hidden" value="no" name="isCheckIn">
+        <input type="hidden" th:value="${session.execFlight.getBoardingGate()}" name="boardingNumber">
+        <label>
+            <span>&nbsp;</span>
+            <input type="submit" class="button" value="确认">
+        </label>
+    </form>
+</div>
+</body>
+</html>

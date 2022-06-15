@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增航站楼</title>
+</head>
+<body>
+<form action="/addTerminals" method="post">
+    <table border="1" align="center">
+        <caption>航站楼信息</caption>
+        <tr>
+            <th>机场编号:</th>
+            <td><input th:value="${msg}"  readonly="readonly" name="airportId"/></td>
+        </tr>
+        <tr>
+            <th>航站楼名</th>
+            <td><input type="text" name="terminalName"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+</form>
+<h3><a th:href="@{/selectAllAirport}">返回主界面</a></h3>
+</body>
+</html>

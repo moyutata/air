@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>报表信息</title>
+    <!-- Bootstrap core CSS -->
+    <link href="asserts/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="asserts/css/dashboard.css" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{mainView::top}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{mainView::sider(s='p')}"></div>
+    </div>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <h3 align="center">报表信息</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th>航班</th><th>出发城市</th><th>到达城市</th><th>出发时间</th><th>到达时间</th><th>已售</th><th>总票</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${msgF} ne null" th:each=" msgs:${msgF}">
+                    <td th:text="${msgs.aircraftName}"></td>
+                    <td th:text="${msgs.depart+msgs.departN+msgs.departT}"></td>
+                    <td th:text="${msgs.arrival+msgs.arrivalN+msgs.arrivalT}"></td>
+                    <td th:text="${#dates.format(msgs.departureTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(msgs.arrivalTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${msgs.finishSale}"></td>
+                    <td th:text="${msgS}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+<div>
+</div>
+</body>
+</html>

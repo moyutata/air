@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>修改机场</title>
+</head>
+<body>
+<form action="/updateAirports" method="post">
+    <table border="1" align="center">
+        <tr>
+            <th>省份:</th>
+            <td>
+                <select name="province">
+                    <option>请选择省</option>
+                    <option th:each="pro:${msgP}" th:value="${pro.provinceId}" th:text="${pro.provinceName}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>城市:</th>
+            <td>
+                <select name="cityId">
+                    <option>请选择市</option>
+                    <option th:each="city:${msgC}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>机场编号:</th>
+            <td><input name="airportId" type="text" th:value="${msg.airportId}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <th>机场名:</th>
+            <td><input name="airportName" type="text" th:value="${msg.airportName}"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+</form>
+<h3><a th:href="@{/selectAllAirport}">返回主界面</a></h3>
+</body>
+</html>

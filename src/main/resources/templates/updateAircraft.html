@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改飞机</title>
+</head>
+<body>
+<form action="/updateAircraftS" method="post">
+    <table border="1" align="center">
+        <caption>飞机信息息</caption>
+        <tr>
+            <th>飞机机编号:</th>
+            <td><input name="aircraftId" type="text" th:value="${msg.aircraftId}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <th>机场名:</th>
+            <td><input name="aircraftName" type="text" th:value="${msg.aircraftName}"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+</form>
+<h3><a th:href="@{/selectAllAircraft}">返回主界面</a></h3>
+</body>
+</html>

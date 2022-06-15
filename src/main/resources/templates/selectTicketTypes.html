@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>机票种类</title>
+    <!-- Bootstrap core CSS -->
+    <link href="asserts/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="asserts/css/dashboard.css" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{mainView::top}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{mainView::sider(s='r')}"></div>
+    </div>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <h2><a th th:href="@{/addTicketTypes(execId=${ms})}">新增机票种类</a></h2>
+        <h3 align="center">机票种类信息</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th>执行航班编号</th><th>舱位等级</th><th>销售价格</th><th>折扣</th><th>票量</th><th>总重量</th><th>行李件数</th><th>餐食</th><th>退改签规则</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                <tbody th:if="${msg} ne null">
+                <tr th:each="msgs:${msg}">
+                    <td th:text="${msgs.execId}"></td>
+                    <td th:text="${msgs.shippingId}"></td>
+                    <td th:text="${msgs.salePrice}"></td>
+                    <td th:text="${msgs.discount}"></td>
+                    <td th:text="${msgs.remains}"></td>
+                    <td th:text="${msgs.totalWeight}"></td>
+                    <td th:text="${msgs.luggageAmount}"></td>
+                    <td th:text="${msgs.isMeal}"></td>
+                    <td th:text="${msgs.refund}"></td>
+<!--                    <td><a th:href="@{/updateTicketTypes(execId=${msgs.execId},shippingId=${msgs.shippingId})}" th:text="修改"></a></td>-->
+                    <td><a th:href="@{/deleteTicketTypes(execId=${msgs.execId},shippingId=${msgs.shippingId})}" th:text="删除"></a></td>
+                </tr>
+                </tbody>
+            </table>
+            <h4><a th:href="@{/selectAllRoute}">返回主界面</a></h4>
+        </div>
+    </main>
+</div>
+<div>
+</div>
+</body>
+</html>

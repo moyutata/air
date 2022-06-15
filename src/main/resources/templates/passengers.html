@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>乘机人管理</title>
+    <link rel="stylesheet" href="asserts/css/table.css">
+    <link rel="stylesheet" href="asserts/css/navigate.css">
+    <style type="text/css">
+        .notify{
+            text-align: center;
+            margin-top: 20px;
+            color: #666666;
+            size: 5px;
+        }
+    </style>
+</head>
+<body>
+<div align="center">
+    <img src="asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a th:href="@{/queryOrders(loginId=${session.user.getLoginId()})}">查询订单</a>
+            <a th:href="@{/queryPassenger}">乘机人管理</a>
+            <a th:href="@{/logout}">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="/search">查询航班</a>
+        </div>
+    </li>
+    <li><a href="/queryFlight">主页</a> </li>
+</ul>
+
+<div align="center" class="div-style">
+    <table id="tables" title="乘机人">
+        <tr><th>乘机人姓名</th><th>身份证号</th><th>性别</th><th>联系电话</th><th>修改</th><th>删除</th></tr>
+        <tr th:each="passenger:${passengers}">
+            <td th:text="${passenger.getPassName()}"></td>
+            <td th:text="${passenger.getIdNumber()}"></td>
+            <td th:text="${passenger.getPassSex()}"></td>
+            <td th:text="${passenger.getPassTel()}"></td>
+            <td><a th:href="@{/findByIdNumber(idNumber=${passenger.getIdNumber()})}">修改</a></td>
+            <td><a th:href="@{/deletePassenger(idNumber=${passenger.getIdNumber()},loginId=${session.user.getLoginId()},userId=${session.user.getUserId()})}">删除</a></td>
+        </tr>
+    </table>
+</div>
+<div class="notify" th:text="${msg}"></div>
+</body>
+</html>

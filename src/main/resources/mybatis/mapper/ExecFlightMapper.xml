@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.lsk.mapper.ExecFlightMapper">
+    <select id="selectExecFlight" parameterType="int" resultType="jmu.lsk.po.ExecutiveFlight">
+        select * from executiveFlight where flightId=#{Id};
+    </select>
+    <insert id="addExecFlight" useGeneratedKeys="true" keyProperty="execId" parameterType="jmu.lsk.po.ExecutiveFlight">
+        insert into executiveFlight(flightId,execDate,execPrice,status,boardingGate,boardingTime,estimateDeparture,actualDeparture,estimateArrival,actualArrival)
+        values (#{flightId},#{execDateR},#{execPrice},#{status},#{boardingGate},#{boardingTimeR},#{estimateDepartureR},#{actualDepartureR},#{estimateArrivalR},#{actualArrivalR})
+    </insert>
+    <select id="selectTicketTypes" resultType="jmu.lsk.po.TicketTypes" parameterType="int">
+        select* from tickettypes where execId=#{Id};
+    </select>
+    <insert id="addTicketTypes" parameterType="jmu.lsk.po.TicketTypes">
+        insert into tickettypes
+        values (#{execId},#{shippingId},#{salePrice},#{discount},#{remains},#{totalWeight},#{luggageAmount},#{isMeal},#{refund});
+    </insert>
+    <select id="allShipping" resultType="jmu.lsk.po.Shipping">
+    select* from shipping;
+    </select>
+    <delete id="deleteExecFlight" parameterType="int">
+        delete from executiveflight where execId=#{Id}
+    </delete>
+    <update id="updateExecFlight" parameterType="jmu.lsk.po.ExecutiveFlight">
+        update executiveflight set execPrice=#{execPrice},status=#{status},boardingGate=#{boardingGate},actualDeparture=#{actualDepartureR},actualArrival=#{actualArrivalR}
+        where execId=#{execId};
+    </update>
+    <select id="selectExecF" parameterType="int" resultType="jmu.lsk.po.ExecutiveFlight">
+        select * from executiveFlight where execId=#{Id};
+    </select>
+    <delete id="deleteTicketTypes" parameterType="jmu.lsk.po.TicketTypes">
+    delete from ticketTypes where execId=#{execId} and shippingId=#{shippingId};
+    </delete>
+
+<!-- 张思文-->
+    <resultMap id="ExecutiveMap" type="jmu.lsk.po.ExecutiveFlight">
+        <id property="execId" column="execId"/>
+        <result property="flightId" column="flightId"/>
+        <result property="execDate" column="execDate"/>
+        <result property="execPrice" column="execPrice"/>
+        <result property="status" column="status"/>
+        <result property="estimateDeparture" column="estimateDeparture"/>
+        <result property="estimateArrival" column="estimateArrival"/>
+        <result property="boardingGate" column="boardingGate"/>
+        <association property="deFlight" javaType="jmu.lsk.po.Flight">
+            <id property="flightId" column="flightId"/>
+            <result property="aircraftId" column="deAircraft"/>
+            <result property="departTerminal" column="departTerminal"/>
+            <association property="terminal" javaType="jmu.lsk.po.Terminal">
+                <id property="terminalId" column="deTerminalId"/>
+                <result property="airportId" column="deAirportId"/>
+                <result property="terminalName" column="deTerName"/>
+                <association property="airport" javaType="jmu.lsk.po.Airport">
+                    <id property="airportId" column="airportId"/>
+                    <result property="airportName" column="deAirportName"/>
+                    <result property="cityId" column="deCityId"/>
+                    <association property="city" javaType="jmu.lsk.po.City">
+                        <id property="cityId" column="cityId"/>
+                        <result property="cityName" column="deCityName"/>
+                    </association>
+                </association>
+            </association>
+        </association>
+        <association property="arFlight" javaType="jmu.lsk.po.Flight">
+            <id property="flightId" column="flightId"/>
+            <result property="aircraftId" column="arAircraft"/>
+            <result property="arrivalTerminal" column="arrivalTerminal"/>
+            <association property="terminal" javaType="jmu.lsk.po.Terminal">
+                <id property="terminalId" column="arTerminalId"/>
+                <result property="airportId" column="arAirportId"/>
+                <result property="terminalName" column="arTerName"/>
+                <association property="airport" javaType="jmu.lsk.po.Airport">
+                    <id property="airportId" column="airportId"/>
+                    <result property="airportName" column="arAirportName"/>
+                    <result property="cityId" column="arCityId"/>
+                    <association property="city" javaType="jmu.lsk.po.City">
+                        <id property="cityId" column="cityId"/>
+                        <result property="cityName" column="arCityName"/>
+                    </association>
+                </association>
+            </association>
+        </association>
+        <collection property="ticketTypeList" ofType="jmu.lsk.po.TicketTypes" >
+            <id property="execId" column="execId"/>
+            <id property="shippingId" column="shippingId"/>
+            <result property="salePrice" column="salePrice"/>
+            <result property="remains" column="remains"/>
+            <result property="isMeal" column="isMeal"/>
+            <association property="shipping" javaType="jmu.lsk.po.Shipping">
+                <id property="shippingId" column="shippingId"/>
+                <result property="shippingGrade" column="grade"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="findFlightBySituation" resultMap="ExecutiveMap" parameterType="jmu.lsk.po.Flight">
+        select
+            m.execId,m.execDate,m.execPrice,m.status,m.estimateDeparture,m.estimateArrival,m.shippingId,m.salePrice,m.discount,m.remains,m.isMeal,
+            m.flightId,m.terminalId deTerminalId,m.terminalName deTerName,m.airportId deAirportId,m.cityId deCityId,m.depart deAirportName,m.departCity deCityName,
+            n.flightId,n.terminalId arTerminalId,n.terminalName arTerName,n.airportId arAirportId,n.cityId arCityId,n.arrival arAirportName,n.arrivalCity arCityName,
+            p.shippingGrade grade from
+                                      (select
+                                           a.execId,a.execDate,a.execPrice,a.status,a.estimateDeparture,a.estimateArrival,b.shippingId,b.salePrice,b.discount,b.remains,b.isMeal,
+                                           e.airportName depart,f.cityName departCity,d.terminalId,d.terminalName,c.flightId,e.airportId,f.cityId
+                                       from executiveflight a,tickettypes b,flight c,terminal d,airport e,city f
+                                       where a.execId=b.execId and a.flightId=c.flightId and c.departTerminal=d.terminalId and d.airportId=e.airportId and e.cityId=f.cityId
+                                      )m,
+                                      (select
+                                           a.execId,a.execDate,a.execPrice,a.status,a.estimateDeparture,a.estimateArrival,b.shippingId,b.salePrice,b.discount,b.remains,b.isMeal,
+                                           e.airportName arrival,f.cityName arrivalCity,d.terminalId,d.terminalName,c.flightId,e.airportId,f.cityId
+                                       from executiveflight a,tickettypes b,flight c,terminal d,airport e,city f
+                                       where a.execId=b.execId and a.flightId=c.flightId and c.arrivalTerminal=d.terminalId and d.airportId=e.airportId and e.cityId=f.cityId
+                                      )n, shipping p
+        where m.execId=n.execId and m.shippingId=p.shippingId and m.shippingId=n.shippingId
+          and m.departCity=#{depart}
+          and n.arrivalCity=#{arrival}
+          and m.execDate=#{deTime};
+    </select>
+
+    <select id="exactFlightBySituation" resultMap="ExecutiveMap" parameterType="jmu.lsk.po.exactFlight">
+        select
+            m.execId,m.execDate,m.execPrice,m.status,m.estimateDeparture,m.estimateArrival,m.shippingId,m.salePrice,m.discount,m.remains,m.isMeal,m.boardingGate,m.deAircraft,
+            m.flightId,m.terminalId deTerminalId,m.terminalName deTerName,m.airportId deAirportId,m.cityId deCityId,m.depart deAirportName,m.departCity deCityName,
+            n.flightId,n.terminalId arTerminalId,n.terminalName arTerName,n.airportId arAirportId,n.cityId arCityId,n.arrival arAirportName,n.arrivalCity arCityName,
+            p.shippingGrade grade from
+                                      (select
+                                           a.execId,a.execDate,a.execPrice,a.status,a.estimateDeparture,a.estimateArrival,a.boardingGate,b.shippingId,b.salePrice,b.discount,b.remains,b.isMeal,
+                                           c.aircraftId deAircraft,e.airportName depart,f.cityName departCity,d.terminalId,d.terminalName,c.flightId,e.airportId,f.cityId
+                                       from executiveflight a,tickettypes b,flight c,terminal d,airport e,city f
+                                       where a.execId=b.execId and a.flightId=c.flightId and c.departTerminal=d.terminalId and d.airportId=e.airportId and e.cityId=f.cityId
+                                      )m,
+                                      (select
+                                           a.execId,a.execDate,a.execPrice,a.status,a.estimateDeparture,a.estimateArrival,b.shippingId,b.salePrice,b.discount,b.remains,b.isMeal,
+                                           c.aircraftId arAircraft,e.airportName arrival,f.cityName arrivalCity,d.terminalId,d.terminalName,c.flightId,e.airportId,f.cityId
+                                       from executiveflight a,tickettypes b,flight c,terminal d,airport e,city f
+                                       where a.execId=b.execId and a.flightId=c.flightId and c.arrivalTerminal=d.terminalId and d.airportId=e.airportId and e.cityId=f.cityId
+                                      )n, shipping p
+        where m.execId=n.execId and m.shippingId=p.shippingId and m.shippingId=n.shippingId
+          and m.departCity=#{depart}
+          and n.arrivalCity=#{arrival}
+          and m.execDate=#{deTime}
+          and m.execId=#{execId}
+          and p.shippingId=#{shippingId};
+    </select>
+</mapper>

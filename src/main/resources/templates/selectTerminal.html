@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>航站楼</title>
+    <!-- Bootstrap core CSS -->
+    <link href="asserts/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="asserts/css/dashboard.css" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{mainView::top}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{mainView::sider(s='c')}"></div>
+    </div>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <h2><a th th:href="@{/addTerminal(airportId=${ms})}">新增航站楼</a></h2>
+        <h3 align="center">机场航站楼信息</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th>机场编号</th><th>航站楼编号</th><th>航站楼名字</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="msgs:${msg}">
+                    <td th:text="${msgs.airportId}"></td>
+                    <td th:text="${msgs.terminalId}"></td>
+                    <td th:text="${msgs.terminalName}"></td>
+<!--                    <td><a th:href="@{/updateCom(cId=${msgs.getAirportId()})}" th:text="修改"></a></td>-->
+<!--                    <td><a th:href="@{/deleteCommunity(cId=${msgs.getAirportId()})}" th:text="删除"></a></td>-->
+                </tr>
+                </tbody>
+            </table>
+            <h4><a th:href="@{/selectAllAirport}">返回主界面</a></h4>
+        </div>
+    </main>
+</div>
+<div>
+</div>
+</body>
+</html>
